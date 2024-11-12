@@ -11,10 +11,10 @@
 ####################### Set These Yourself ###################################
 
 # Directory that you got after unzipping the BabelNet .tar.bz2 file
-BABELNET_HOSTPATH=/home/ethanlmines/blue_dir/datasets/babelnet/BabelNet-5.0/
+BABELNET_HOSTPATH=/path/to/BabelNet-5.0/
 
 # Apptainer BabelNet RPC image
-BABELNET_IMAGE=/home/ethanlmines/blue_dir/images/babelnet-rpc.sif
+BABELNET_IMAGE=/path/to/babelnet-rpc.sif
 
 
 ################################### Leave These Alone ################################################
@@ -35,7 +35,7 @@ sleep 10m
 
 module load conda
 conda activate babelnet
-python script.py 
+python sample_query.py 
 
 ######################################################################################################
 
