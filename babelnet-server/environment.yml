@@ -1,0 +1,9 @@
+name: babelnet
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8 # babelnet python API only supports 3.8
+  - pip
+  - pip:
+    - babelnet[rpc] # Need RPC to access a self-hosted babelnet server
+    - nltk          # Convenience--I frequently need to map between WordNet and BabelNet
