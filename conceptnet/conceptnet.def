@@ -8,17 +8,11 @@ From: ubuntu:20.04
 	fi
 
 %files
-	./build_commands.sh /build_commands.sh
+	./data_commands.sh /data_commands.sh
 	./conceptnet5 /conceptnet5
 %post
-	# FIXME: Cannot copy it to this user dir. Need to choose somewhere else
-	USER_DIR=/home/{{ HOST_USER }}
-	mkdir $USER_DIR
-	mv /build_commands.sh /conceptnet5/ $USER_DIR/
-
 	apt-get -y update
 	DEBIAN_FRONTEND=noninteractive apt-get install -y libhdf5-dev libmecab-dev mecab-ipadic-utf8 build-essential python3-pip python3-dev postgresql-12 vim
-	#DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql-12 vim
 
 	pg_conf=/etc/postgresql/12/main/pg_hba.conf
 	sed -i s/peer/trust/g $pg_conf
