@@ -3,12 +3,12 @@
 Some of the other tutorials here use Apptainer, the (only) container runtime available on UF's compute cluster.
 If you've used Docker or Podman before, some of Apptainer's functionality will look familiar, but overall Apptainer takes a lot of the good default behavior from Docker and reverses it, forcing you to specify several extra flags during the build and/or run process.
 
-A few gotcha's to be aware of:
+Here we outline a few common "gotchas" and out to circumvent them:
 
 ## File System Mounts
-When you run a container with `apptainer run`, apptainer mounts your host filesystem into the container (the opposite of what a Docker user would expect). Run with `--containall` to stop this.
+When you run a container with `apptainer run`, apptainer mounts much of your host filesystem into the container (the opposite of what a Docker user would expect). Run with `--containall` to stop this.
 
-## System Files Not Writable
+## System Files Not Writable & Writable Overlays Disabled
 Apptainer is designed to keep you from writing as few system files as possible (whether you run with `--containall` or not).
 You can get around this with  `--writable` or `--writable-tmpfs` option and a filesystem overlay, but the HPG admin has disabled overlays.
 
@@ -16,7 +16,7 @@ Whan you can instead do is convert your `.sif` image to a sandbox directory that
 
 ```bash
 apptainer build --sandbox my_image_sandbox/ my_image.sif
-apptainer run my_image_sandbox/
+apptainer run --writable my_image_sandbox/ bash
 ```
 
 ## Tmp Dirs in Build Process
@@ -35,3 +35,15 @@ Sometimes packages installed via `apt-get` will fail to install because they sti
 APPTAINERENV_TMPDIR=/tmp apptainer build image_name.sif mydefinition.def
 ```
 
+## Fakeroot
+This one I have no workaround for.
+
+Apptainer is designed to never let you run as actual root. During the build proces, it uses the Linux `fakeroot` command to deceive commands like `apt-get` into thinking you're root.
+Sometimes this isn't enough though.
+
+If you want to run as fakeroot at runtime, pass the `--fakeroot` flag to the `run` command.
+Again, being fakeroot sometimes isn't enough to accomplish what you want.
+
+I think the motivation for this was, in Docker, you could create a file with root-only access inside a mounted partition from your host fileystem.
+The sysadmins were probably worried novice users would pollute the host filesystem with a bunch of root-owned files and not know how to delete them.
+If you're "fakeroot" though, those files will still show up on the host filesystem as being owned by you.
