@@ -12,10 +12,10 @@ psql -c "create database conceptnet5"
 
 python3 -m venv ./local_env
 source ./local_env/bin/activate
+
+mkdir -p data/
 # venv doesn't have wheel installed by default, and it's needed to install some other packages. Not sure why python's topological sort can't pick up on that
 python3 -m pip install wheel
-python3 -m pip install -e '.[vectors]'
-
 ./build.sh
 
 $PG_BIN/pg_ctl stop -D pg_data/
