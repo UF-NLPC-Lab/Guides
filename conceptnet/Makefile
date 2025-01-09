@@ -1,9 +1,9 @@
 
-data: sandbox
-	apptainer run --containall --writable sandbox /data_commands.sh
+data: sandbox data_commands.sh
+	apptainer run --writable sandbox /data_commands.sh
 
 sandbox: conceptnet.sif
-	rm -rf sandbox && apptainer build -F --sandbox sandbox/ conceptnet.sif
+	apptainer build -F --sandbox sandbox/ conceptnet.sif
 
 conceptnet.sif: conceptnet.def
 	APPTAINERENV_TMPDIR=/tmp apptainer build -F conceptnet.sif conceptnet.def
