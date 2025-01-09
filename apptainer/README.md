@@ -6,10 +6,12 @@ If you've used Docker or Podman before, some of Apptainer's functionality will l
 Here we outline a few common "gotchas" and out to circumvent them:
 
 ## File System Mounts
-When you run a container with `apptainer run`, apptainer mounts much of your host filesystem into the container (the opposite of what a Docker user would expect). Run with `--containall` to stop this.
+When you run a container with `apptainer run`, apptainer by default mounts your `/home/<username>` directory and several system directories (see [their list](https://apptainer.org/docs/user/main/bind_paths_and_mounts.html#system-defined-bind-paths)).
+You can add the [--contain](https://apptainer.org/docs/user/main/bind_paths_and_mounts.html#contain-containall) but that also creates an in-RAM filesystem for parts of your container, and you may run out of room depending on the kind of job you're doing.
+
 
 ## System Files Not Writable & Writable Overlays Disabled
-Apptainer is designed to keep you from writing as few system files as possible (whether you run with `--containall` or not).
+Apptainer is designed to keep you from writing as few system files as possible.
 You can get around this with  `--writable` or `--writable-tmpfs` option and a filesystem overlay, but the HPG admin has disabled overlays.
 
 Whan you can instead do is convert your `.sif` image to a sandbox directory that contains an editable filesystem:
