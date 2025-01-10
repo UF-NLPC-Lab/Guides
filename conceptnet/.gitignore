@@ -1,3 +1,4 @@
 
-conceptnet5
-pg_data
+conceptnet5/
+pg_data/
+local_env/

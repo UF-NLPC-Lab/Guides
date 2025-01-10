@@ -1,21 +1,23 @@
 #!/bin/bash
 
 HOST_USER=$(whoami)
-PG_BIN=/usr/lib/postgresql/12/bin
-cd /conceptnet5
 
 rm -rf pg_data && mkdir pg_data
-$PG_BIN/initdb pg_data/
-$PG_BIN/pg_ctl -D pg_data/ -l pg.log start
+initdb pg_data/
+pg_ctl -D pg_data/ -l pg.log start
 psql -d postgres -c "create database $HOST_USER"
 psql -c "create database conceptnet5"
 
-python3 -m venv ./local_env
-source ./local_env/bin/activate
-
-mkdir -p data/
+VENV_PATH=`pwd`/local_env
+python3 -m venv $VENV_PATH
+source $VENV_PATH/bin/activate
 # venv doesn't have wheel installed by default, and it's needed to install some other packages. Not sure why python's topological sort can't pick up on that
-python3 -m pip install wheel
-./build.sh
+# Also got an import error for ipadic while building conceptnet.
+python3 -m pip install wheel ipadic
 
-$PG_BIN/pg_ctl stop -D pg_data/
+pushd conceptnet5
+mkdir -p data/
+./build.sh
+popd
+
+pg_ctl stop -D pg_data/

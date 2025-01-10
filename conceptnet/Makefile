@@ -6,7 +6,7 @@ sandbox: conceptnet.sif
 	rm -rf sandbox/ && apptainer build --sandbox sandbox/ conceptnet.sif
 
 conceptnet.sif: conceptnet.def
-	APPTAINERENV_TMPDIR=/tmp apptainer build -F conceptnet.sif conceptnet.def
+	apptainer build -F conceptnet.sif conceptnet.def
 
 clean:
 	rm -rf sandbox/ *.sif
