@@ -1,5 +1,6 @@
 # Apptainer
 
+
 Some of the other tutorials here use Apptainer, the (only) container runtime available on UF's compute cluster.
 If you've used Docker or Podman before, some of Apptainer's functionality will look familiar, but overall Apptainer takes a lot of the good default behavior from Docker and reverses it.
 
@@ -44,7 +45,7 @@ Assuming you've followed the instructions for mounting `/scratch, /blue, and /or
 If you're not running in a slurm job, a local `./tmp` dir will get created and used for APPTAINERENV_TMPDIR.
 In this case you're going to need to set APPTAINERENV_TMPDIR yourself, and bind that local directory to the container filesystem:
 ```bash
-APPTAINERENV_TMPDIR=`pwd`/tmp apptainer run --bind `pwd`/tmp:/tmp my_container.sif my_program
+APPTAINERENV_TMPDIR=/tmp apptainer run --bind `pwd`/tmp:/tmp my_container.sif my_program
 ```
 
 ## System Files Not Writable & Writable Overlays Disabled
@@ -68,3 +69,26 @@ The sysadmins were probably worried novice users would pollute the host filesyst
 
 If you want to run as fakeroot at runtime, pass the `--fakeroot` flag to the `run` command.
 In general though, you should be able to install everything you need to during the build process.
+
+## Example
+We have a sample definition file for you to build a container.
+Do as follows:
+
+```bash
+module load apptainer
+apptainer build sample.sif sample.def
+apptainer build --sandbox sandbox/ sample.sif
+
+######################## From Slurm ###########################################
+apptainer run --writable sandbox/ ./hello_world.sh
+apptainer run --writable sandbox/ python3.8
+# Will fail. only takes single commands. Can't do `python3.8 script.py`
+apptainer run --writable sandbox/ "python3.8 script.py"
+# Explore the container interactively
+apptainer run --writable sandbox/ bash
+
+####################### Not from Slurm #########################################
+# Don't forget to bind the /tmp dir
+APPTAINERENV_TMPDIR=/tmp apptainer run --bind `pwd`/tmp:/tmp --writable sandbox/ bash
+```
+

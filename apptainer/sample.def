@@ -1,0 +1,16 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%setup
+	echo "This command is run on your host, before we spin up the container!"
+%files
+	# For copying files into the image
+	./README.md /root/README.md
+%post
+	# Put this in every definition file you make on Hipergator
+	mkdir -p /blue /orange /scratch $TMPDIR
+
+	# Assuming you use a Debian distro, always update your package indices before installing stuff
+	apt-get -y update
+	# Remember -y so you dont get prompted to say 'yes'. Remember the DEBIAN_FRONTEND=... so that it does not try to make a GUI dialog when you install stuff
+	DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python3-pip python3.8-dev vim
