@@ -1,0 +1,12 @@
+
+data: sandbox data_commands.sh
+	apptainer run --writable sandbox /data_commands.sh
+
+sandbox: conceptnet.sif
+	rm -rf sandbox/ && apptainer build --sandbox sandbox/ conceptnet.sif
+
+conceptnet.sif: conceptnet.def
+	apptainer build -F conceptnet.sif conceptnet.def
+
+clean:
+	rm -rf sandbox/ *.sif

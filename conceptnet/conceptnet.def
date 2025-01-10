@@ -1,0 +1,30 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%setup
+	if [ ! -e conceptnet5 ]
+	then
+		git clone --depth 1 https://github.com/commonsense/conceptnet5.git
+	fi
+%files
+	./data_commands.sh /data_commands.sh
+%post
+	mkdir -p /blue /orange /scratch $TMPDIR
+
+	apt-get -y update
+	DEBIAN_FRONTEND=noninteractive apt-get install -y libhdf5-dev libmecab-dev mecab-ipadic-utf8 build-essential python3-pip python3.8-dev python3.8-venv postgresql-12 unzip wget vim 
+
+	# Nice to be able to type these commands out manually as needed
+	PG_BIN=/usr/lib/postgresql/12/bin
+	ln -s $PG_BIN/pg_ctl /usr/bin/pg_ctl
+	ln -s $PG_BIN/initdb /usr/bin/initdb
+
+	echo en_US.UTF-8 UTF-8 > /etc/locale.gen
+	locale-gen en_US.UTF-8
+
+	# See https://gist.github.com/p1nox/4953113
+	pg_conf=/etc/postgresql/12/main/pg_hba.conf
+	sed -i s/peer/trust/g $pg_conf
+	sed -i s/md5/trust/g $pg_conf
+	sed -i s/postgres/all/g $pg_conf
+
