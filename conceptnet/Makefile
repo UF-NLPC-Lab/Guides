@@ -9,4 +9,5 @@ conceptnet.sif: conceptnet.def
 	apptainer build -F conceptnet.sif conceptnet.def
 
 clean:
-	rm -rf sandbox/ *.sif
+	rm -rf sandbox/ *.sif pg.log
+	@echo 'You might want to "rm -rf pg_data/" too, but we don't do it automatically so you don't accidentally delete it.'
