@@ -190,5 +190,5 @@ and not this, which removes stuff inside the folder:
 ```bash
 # BAD!!!
 # Follows the link to the folder, then removes everything inside the folder you're linking to.
-rm folder/* 
+rm bin/* 
 ```
