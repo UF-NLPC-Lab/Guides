@@ -25,7 +25,17 @@ Bash makes you do the `chmod` command so you don't accidently try to "run" a fil
 Notice when you set a variable, you don't use a $.
 When you want to actually use the value of a variable though, you prefix its name with a $.
 
-The `#!/bin/bash` indicates what interpreter should be used to run your script.
+A bash script is just a way of stringing together Bash commands that could have typed out manually otherwise.
+To prove that to yourself, type out those two commands (hitting "Enter" after each one) directly in the terminal, rather than running them with a script:
+```
+THIS_IS_A_VARIABLE="World"
+echo Hello $THIS_IS_A_VARIABLE
+```
+
+## The Shebang
+
+The `#!` at the top of scripts is known as a "shebang".
+When you run a script that starts with this, Bash will look at whatever program you've written after the shebang, and use that to run or "interpret" your script.
 You are allowed to put different interpreters for other scripting and programming languages: Perl, Python, etc.
 
 Assuming you have Python3 installed somewhere, make the following `script.py` file:
@@ -41,6 +51,9 @@ chmod +x script.py
 
 Be sure to use `#!/usr/bin/env python3` instead of something like `/usr/bin/python3`.
 The former will work even when you're using a Conda environment or similar; the latter will not.
+
+In the exercises below, if you see a shebang, that means you should put those lines of code in a script file.
+Otherwise, you should just type out the commands manually.
 
 ## Printing File Contents
 
@@ -115,7 +128,6 @@ Notice that in both cases, if a variable doesn't exist, Bash will just substitut
 Sometimes you want to use store text printed from one command inside a variable:
 
 ```bash
-#!/bin/bash
 MY_CURRENT_DIR=$(pwd)
 cd ..
 cd $MY_CURRENT_DIR # now you're back where you were before
@@ -129,7 +141,7 @@ cd /home/$(whoami)
 ## For Loops
 Bash for-loops are really handy if running multiple experiments with different hyperparameter settings.
 It's good to structure your script such that it takes command line arguments, making it easy for you to do this.
-
+Make a script like the following and run it:
 ```bash
 #!/bin/bash
 
@@ -139,40 +151,42 @@ do
     do
         for learning_rate in 0.001 0.005 0.01
         do
-            hyperparams="--model $model_type --dataset $dataset --lr $lr"
-            echo Using the hyperparameters "$hyperparams"
+            hyperparams="--model $model_type --dataset $dataset --lr $learning_rate"
+            echo Using the hyperparameters $hyperparams
             # Commenting this out because I didn't actually make an experiment.sh
             # ./my_experiment.sh $hyperparams
         done
     done
 done
-Each for-loop creates a variable, and the tokens after `in` are the different values that will get assigned to that variable.
 ```
+Each for-loop creates a variable, and the tokens after `in` are the different values that will get assigned to that variable.
 
 ## Symbolic Links
 
 Say you have a file or folder with a really long path and you don't want to type it out. You can make a symlink or shortcut:
 
 ```bash
-ln -s /etc/path/to/some/program/in/another/folder/program
-./program
+ln -s /usr/bin/python3
+./python3
 # Removing a link does not remove the original file: 
-rm program
+rm python3
 # Make a link to the same file, but with a custom name
-ln -s /etc/path/to/some/program/in/another/folder/program my_program
-./my_program
+ln -s /usr/bin/python3 my_python_link
+./my_python_link
+# Removing the link if you don't need it anymore
+rm my_python_link
 ```
 
 ```bash
 # Folder
-ln -s /path/to/some/distant/folder
-ls folder
+ln -s /usr/bin
+ls ./bin
 ```
-If you want to remove the link to a folder, be sure to do this
+If you want to remove the link to a folder, be sure to do this, which just removes the link
 ```bash
-rm folder
+rm bin
 ```
-and not this:
+and not this, which removes stuff inside the folder:
 ```bash
 # BAD!!!
 # Follows the link to the folder, then removes everything inside the folder you're linking to.
