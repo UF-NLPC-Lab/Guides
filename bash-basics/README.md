@@ -22,8 +22,8 @@ chmod +x script.sh # Makes the script executable.
 ```
 Bash makes you do the `chmod` command so you don't accidently try to "run" a file that isn't an actual program (like a text file).
 
-Notice when you set a variable, you don't use a $.
-When you want to actually use the value of a variable though, you prefix its name with a $.
+Notice when you set a variable, you don't use a \$.
+When you want to actually use the value of a variable though, you prefix its name with a \$.
 
 A bash script is just a way of stringing together Bash commands that could have typed out manually otherwise.
 To prove that to yourself, type out those two commands (hitting "Enter" after each one) directly in the terminal, rather than running them with a script:
@@ -49,8 +49,8 @@ chmod +x script.py
 ./script.py
 ```
 
-Be sure to use `#!/usr/bin/env python3` instead of something like `/usr/bin/python3`.
-The former will work even when you're using a Conda environment or similar; the latter will not.
+Be sure to use `#!/usr/bin/env python3` instead of something like `#!/usr/bin/python3`.
+The former will use your Conda environment if you have one activated; the latter will not.
 
 In the exercises below, if you see a shebang, that means you should put those lines of code in a script file.
 Otherwise, you should just type out the commands manually.
