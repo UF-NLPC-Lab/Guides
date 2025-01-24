@@ -28,3 +28,7 @@ From: ubuntu:20.04
 	sed -i s/md5/trust/g $pg_conf
 	sed -i s/postgres/all/g $pg_conf
 
+%startscript
+	pg_ctl -D pg_data stop # stop if already running
+	pg_ctl -D pg_data/ -l pg.log start
+

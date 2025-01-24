@@ -1,4 +1,5 @@
 
+
 data: sandbox data_commands.sh
 	apptainer run --writable sandbox /data_commands.sh
 
@@ -7,6 +8,13 @@ sandbox: conceptnet.sif
 
 conceptnet.sif: conceptnet.def
 	apptainer build -F conceptnet.sif conceptnet.def
+
+
+start:
+	apptainer instance start --writable sandbox cndb_instance
+
+stop: 
+	apptainer instance stop cndb_instance
 
 clean:
 	rm -rf sandbox/ *.sif pg.log
