@@ -85,8 +85,6 @@ The Global Regular Expresion and Print (grep) command is a popular utility for s
 It prints every line of input that has a match for the pattern you give it. `-i` tells it to be case-insensitive.
 
 ## Bash Variables
-Let's I have two files, programA.sh and programB.sh.
-
 Make a file called programA.sh with the following contents:
 ```bash
 #!/bin/bash
