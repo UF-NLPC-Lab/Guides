@@ -3,15 +3,16 @@
 PyTorch Lightning is a library built on top of PyTorch that I use for most of my ML experimentation.
 It's great for typical supervised learning tasks, but I can't speak to how easy it is to use for other ML tasks (GANs, reinforcement learning, etc.).
 
-Our best example of how to use PyTorch Lightning is currently our [gatbert](https://github.com/UF-NLPC-Lab/gatbert) repo,
-and we use it for the basis of our illustrations here. We prefer to only put information in that repo's README relevant to researchers outside our lab who just want to run the code.
+Our best example of how to use PyTorch Lightning is currently an outdated commit of the [gatbert](https://github.com/UF-NLPC-Lab/gatbert/commit/9967691933977dfbc1e56d539682d27989e57be7) repo, and we use it for the basis of our illustrations here.
+That repo is under active development, hence the old commit hash.
+We prefer to only put information in that repo's README relevant to researchers outside our lab who just want to run the code.
 You, on the other hand, are presumably a developer in the NLP&C Lab and need some additional background.
 
 From the gatbert repo, do the following:
 ```bash
 module load conda
 conda activate gatbert
-python -m gatbert fit --help
+python -m gatbert.fit_and_test --help
 ```
 
 You'll see a large array of configurable parameters, most of which you or I will never use.
