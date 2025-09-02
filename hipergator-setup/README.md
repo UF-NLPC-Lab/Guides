@@ -2,6 +2,14 @@
 
 I recommend at least reading through [bash-basics](../bash-basics) first, even if you don't do the exercises.
 
+## Loading Lmod Modules Automatically
+If there's an Lmod module that you use all the time, you're better off adding the `load` command to your `.bashrc`:
+
+```bash
+echo module load tmux >> ~/.bashrc
+echo module load conda >> ~/.bashrc
+```
+
 ## Blue and Orange Directories
 You should store as little in your `/home/<username>` directory as possible, because you have a 30GB quota for that.
 HPG offers blue and orange disk storage, and our lab at least as fairly high quotas.
