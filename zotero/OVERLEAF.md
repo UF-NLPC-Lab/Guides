@@ -1,6 +1,4 @@
-# Zotero
-
-## Adding Citations to Overleaf
+# Adding Citations to Overleaf
 
 1. Make a folder where you intend to copy all your sources for your paper (you can have one paper in multiple folders in Zotero)
 
