@@ -33,6 +33,18 @@ echo 'export HF_HOME=$HOME/blue_dir/huggingface' >> ~/.bashrc
 echo 'export APPTAINER_CACHEDIR=$HOME/blue_dir/apptainer_cache' >> ~/.bashrc
 # Pip's caches
 echo 'export PIP_CACHE_DIR=$HOME/blue_dir/pip_cache' >> ~/.bashrc
+# Triton's caches (a lot of ML & LLM libraries use Triton as a dependency)
+echo 'export TRITON_HOME=$HOME/blue_dir/' >> ~/.bashrc
+```
+
+Vllm, uv, and a lot of other libraries use the XDG_ family of directories for caching things:
+```bash
+echo 'export XDG_CACHE_HOME=$HOME/blue_dir' >> ~/.bashrc
+echo 'export XDG_DATA_HOME=$HOME/blue_dir' >> ~/.bashrc
+echo 'export XDG_CONFIG_HOME=$HOME/blue_dir' >> ~/.bashrc
+echo 'export XDG_CONFIG_DIRS=$HOME/blue_dir' >> ~/.bashrc
+echo 'export XDG_BIN_HOME=$HOME/blue_dir/bin' >> ~/.bashrc
+echo 'export PATH="$XDG_BIN_HOME:$PATH"' >> ~/.bashrc
 ```
 
 Conda is a bit more complicated as you need to change some command config files.
