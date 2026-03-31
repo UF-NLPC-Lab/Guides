@@ -10,10 +10,16 @@ echo module load tmux >> ~/.bashrc
 echo module load conda >> ~/.bashrc
 ```
 
-## Blue and Orange Directories
+## Environment Variables and `/blue` Storage
 You should store as little in your `/home/<username>` directory as possible, because you have a 30GB quota for that.
 HPG offers blue and orange disk storage, and our lab at least as fairly high quotas.
 
+To check your (and the lab's) usage of the various storage directories, run the following commands:
+```bash
+home_quota
+blue_quota
+orange_quota
+```
 Make symbolic links to them in your home directory, as that will make things easier for you:
 ```bash
 cd ~
@@ -24,20 +30,40 @@ In general, only use orange storage for files you aren't going to look at for a 
 
 A lot of applications will store data under your home directory by default.
 Here's how to change the defaults for a few common ones we use:
+
+### Natural Language Toolkit (NLTK)
 ```bash
 # Natural Language Toolkit's data downloads
 echo 'export NLTK_DATA=$HOME/blue_dir/datasets/nltk_data' >> ~/.bashrc
-# Hugging face's downloads
-echo 'export HF_HOME=$HOME/blue_dir/huggingface' >> ~/.bashrc
-# Apptainer's caches
-echo 'export APPTAINER_CACHEDIR=$HOME/blue_dir/apptainer_cache' >> ~/.bashrc
-# Pip's caches
-echo 'export PIP_CACHE_DIR=$HOME/blue_dir/pip_cache' >> ~/.bashrc
-# Triton's caches (a lot of ML & LLM libraries use Triton as a dependency)
-echo 'export TRITON_HOME=$HOME/blue_dir/' >> ~/.bashrc
 ```
 
-Vllm, uv, and a lot of other libraries use the XDG_ family of directories for caching things:
+### Hugging Face
+```bash
+echo 'export HF_HOME=$HOME/blue_dir/huggingface' >> ~/.bashrc
+```
+
+### Apptainer
+```bash
+echo 'export APPTAINER_CACHEDIR=$HOME/blue_dir/apptainer_cache' >> ~/.bashrc
+```
+### Pip
+```bash
+echo 'export PIP_CACHE_DIR=$HOME/blue_dir/pip_cache' >> ~/.bashrc
+```
+
+### Triton (Used by vllm)
+```bash
+echo 'export TRITON_HOME=$HOME/blue_dir/' >> ~/.bashrc
+echo 'export TRITON_CACHE_DIR=$TRITON_HOME/triton_cache/' >> ~/.bashrc
+```
+
+### FlashInfer (Used by vllm)
+```bash
+echo 'export FLASHINFER_WORKSPACE_BASE=$HOME/blue_dir/flashinfer_cache' >> ~/.bashrc
+```
+
+### `XDG_*`
+Vllm, uv, and a lot of other libraries use the `XDG_*` family of directories for caching things:
 ```bash
 echo 'export XDG_CACHE_HOME=$HOME/blue_dir' >> ~/.bashrc
 echo 'export XDG_DATA_HOME=$HOME/blue_dir' >> ~/.bashrc
@@ -47,6 +73,14 @@ echo 'export XDG_BIN_HOME=$HOME/blue_dir/bin' >> ~/.bashrc
 echo 'export PATH="$XDG_BIN_HOME:$PATH"' >> ~/.bashrc
 ```
 
+### Torch Inductor
+This is key to avoid `/scratch` path errors when using vllm.
+Torch Inductor sets its cache dir to be `TMPDIR` by default (which gets set by Slurm to a temporary directory that won't exist in future jobs).
+```bash
+echo 'export TORCHINDUCTOR_CACHE_DIR=$HOME/blue_dir/torchinductor' >> ~/.bashrc
+```
+
+### Conda
 Conda is a bit more complicated as you need to change some command config files.
 Add the following lines to your `~/.condarc` file:
 ```bash
@@ -57,12 +91,6 @@ env_dirs:
 ```
 These lines were drawn from HPG's [excellent documentation](https://help.rc.ufl.edu/doc/Managing_Python_environments_and_Jupyter_kernels).
 
-To check your (and the lab's) usage of the various storage directories, run the following commands:
-```bash
-home_quota
-blue_quota
-orange_quota
-```
 
 ## VS Code Development
 If you haven't already, make an account on [github.com](github.com), as it's an easy way to do authentication for remote development with VSCode.

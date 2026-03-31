@@ -1,20 +1,30 @@
+# VLLM 
 
-## Configure your environment variables
+## Configure Your Environment Variables
 
-Make sure you set your various XDG_ directories to fall under your blue directory like you were told in the [Hipergator Tutorial](../hipergator-setup/README.md)
+Go through the [Hipergator Tutorial](../hipergator-setup/README.md) and make sure you have followed my environment var instructions for:
+- Triton
+- FlashInfer
+- `XDG_*`
 
-Configure your torchinductor cache dir to point to blue, rather than the default of TMPDIR (this is what causes `/scratch/` path issues with vllm if you've encountered those):
+If you've done this, that should circumvent any `/scratch` errors with Torch Inductor.
+
+## Cleanup After `/scratch` Errors
+If you had issues with `/scratch`, that's probably because you didn't set up the environment variables like instructed.
+You probably need to remove all the default cache dirs (because those cached files will still reference that `/scratch` dir):
+
+```bash
+# If you have your environment vars set up
+rm -rf ~/.cache/vllm
+rm -rf ~/.cache/flashinfer
+rm -rf ~/.triton
 ```
-echo 'export TORCHINDUCTOR_CACHE_DIR=$HOME/blue_dir/torchinductor_$(whoami)' >> ~/.bashrc
-echo 'export TRITON_HOME=$HOME/blue_dir/' >> ~/.bashrc
+You don't have to delete the torchinductor cache dir, since that old `/scratch` dir got deleted.
+
+If you did set up the environment variables already, remove the directories they point to:
+```bash
+rm -rf $XDG_CACHE_HOME/vllm
+rm -rf $FLASHINFER_WORKSPACE_BASE
+rm -rf $TRITON_HOME
 ```
 
-
-
-## Defaults for those Cache Dirs
-If you had issues with /scratch, you probably need to remove all the default cache dirs, then follow my instructions for setting the environment variables above.
-
-- ~/vllm
-- ~/.triton
-
-Don't have to delete the torchinductor cache dir, since that old /scratch dir got deleted.
