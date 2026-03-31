@@ -73,7 +73,7 @@ echo 'export XDG_BIN_HOME=$HOME/blue_dir/bin' >> ~/.bashrc
 echo 'export PATH="$XDG_BIN_HOME:$PATH"' >> ~/.bashrc
 ```
 
-### Torch Inductor
+### TorchInductor
 This is key to avoid `/scratch` path errors when using vllm.
 Torch Inductor sets its cache dir to be `TMPDIR` by default (which gets set by Slurm to a temporary directory that won't exist in future jobs).
 ```bash
