@@ -5,7 +5,7 @@
 Go through the [Hipergator Tutorial](../hipergator-setup/README.md) and make sure you have followed my environment var instructions for:
 - [Triton](../hipergator-setup/README.md#triton)
 - [FlashInfer](../hipergator-setup/README.md#flashinfer)
-- [`XDG`](../hipergator-setup/README.md#xdg-dirs)
+- [`XDG` Dirs](../hipergator-setup/README.md#xdg-dirs)
 
 If you've done this, that should circumvent any `/scratch` errors with Torch Inductor.
 
