@@ -51,18 +51,18 @@ echo 'export APPTAINER_CACHEDIR=$HOME/blue_dir/apptainer_cache' >> ~/.bashrc
 echo 'export PIP_CACHE_DIR=$HOME/blue_dir/pip_cache' >> ~/.bashrc
 ```
 
-### Triton (Used by vllm)
+### Triton
 ```bash
 echo 'export TRITON_HOME=$HOME/blue_dir/' >> ~/.bashrc
 echo 'export TRITON_CACHE_DIR=$TRITON_HOME/triton_cache/' >> ~/.bashrc
 ```
 
-### FlashInfer (Used by vllm)
+### FlashInfer
 ```bash
 echo 'export FLASHINFER_WORKSPACE_BASE=$HOME/blue_dir/flashinfer_cache' >> ~/.bashrc
 ```
 
-### `XDG_*`
+### `XDG` Dirs
 Vllm, uv, and a lot of other libraries use the `XDG_*` family of directories for caching things:
 ```bash
 echo 'export XDG_CACHE_HOME=$HOME/blue_dir' >> ~/.bashrc
