@@ -3,6 +3,7 @@
 ## Configure Your Environment Variables
 
 Go through the [Hipergator Tutorial](../hipergator-setup/README.md) and make sure you have followed my environment var instructions for:
+- [Hugging Face](../hipergator-setup/README.md#hugging-face)
 - [Triton](../hipergator-setup/README.md#triton)
 - [FlashInfer](../hipergator-setup/README.md#flashinfer)
 - [`XDG` Dirs](../hipergator-setup/README.md#xdg-dirs)
@@ -12,8 +13,7 @@ If you've done this, that should circumvent any `/scratch` errors with Torch Ind
 
 ## Cleanup After `/scratch` Errors
 If you had issues with `/scratch`, that's probably because you didn't set up the environment variables like instructed.
-You probably need to remove all the default cache dirs (because those cached files will still reference that `/scratch` dir):
-
+You probably need to delete these default cache dirs that reference the (now deleted) files in the `/scratch` dir:
 ```bash
 # If you have your environment vars set up
 rm -rf ~/.cache/vllm
